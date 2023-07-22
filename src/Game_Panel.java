@@ -171,6 +171,12 @@ public class Game_Panel extends JPanel implements Runnable{
 				delta --;
 				
 			}
+	        // Introduce a frame rate limiter
+	        try {
+	            Thread.sleep(1); // Adjust the sleep duration as needed
+	        } catch (InterruptedException e) {
+	            e.printStackTrace();
+	        }
 		}
 		
 	}
