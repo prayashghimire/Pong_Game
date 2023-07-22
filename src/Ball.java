@@ -6,8 +6,8 @@ import java.util.Random;
 public class Ball extends Rectangle {
 
 	Random rnd;
-	int Xvelocity;
-	int Yvelocity;
+	int Xvelocity = 5;
+	int Yvelocity = 5;
 	
 	
 	
@@ -43,14 +43,14 @@ public class Ball extends Rectangle {
 	}
 	public void move() {
 		
-		x += Xvelocity;
-		y += Yvelocity;
+		x = x + Xvelocity;
+		y = y + Yvelocity;
 		
 	}
 	public void draw(Graphics g) {
 		
 		g.setColor(Color.yellow);
-		g.fillOval(y, y, height, width);
+		g.fillOval(x, y, height, width);
 		
 	}
 }

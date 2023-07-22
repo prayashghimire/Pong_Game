@@ -72,8 +72,9 @@ public class Game_Panel extends JPanel implements Runnable{
 	public void move() {
 		//making the movement of paddle smooth
 		paddle1.move();
-		paddle2.movePaddle2(ball.getY());;
 		ball.move();
+		paddle2.movePaddle2(ball.getY());;
+		
 		
 	}
 	public void check_collision() {
@@ -156,11 +157,11 @@ public class Game_Panel extends JPanel implements Runnable{
 		long lasttime = System.nanoTime();
 		double amountofticks = 60.0;
 		double nanoseconds = 1000000000 / amountofticks;
-		double delta;
+		double delta = 0;
 		while(true) {
 			
 			long now = System.nanoTime();
-			delta =+ (now-lasttime) / nanoseconds;
+			delta += (now - lasttime) / nanoseconds;
 			lasttime = now;
 			
 			if(delta >= 1) {
@@ -168,6 +169,7 @@ public class Game_Panel extends JPanel implements Runnable{
 				check_collision();
 				repaint();
 				delta --;
+				
 			}
 		}
 		
