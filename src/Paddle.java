@@ -96,4 +96,19 @@ public class Paddle extends Rectangle {
 		g.fillRect(x, y	, width, height);
 		
 	}
+	public void movePaddle2(double ballY) {
+		
+		int paddleCenter = y + height/2;
+		
+		int bally = (int) ballY;
+		
+		if(ballY < paddleCenter) 
+			setYdirection(-speed);//moving the paddle upwards
+		else
+			setYdirection(speed);//moving the paddle downwards
+
+			
+		move();	
+		
+	}
 }

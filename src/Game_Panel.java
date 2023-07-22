@@ -18,6 +18,7 @@ public class Game_Panel extends JPanel implements Runnable{
 	Thread gameThread;
 	Image img;
 	Graphics gr;
+	Random random;
 	Paddle paddle1;
 	Paddle paddle2;
 	Ball ball;
@@ -40,6 +41,10 @@ public class Game_Panel extends JPanel implements Runnable{
 	
 	public void newball() {
 		
+		random = new Random();
+		
+		ball = new Ball((GAME_WIDTH/2)-(BALL_DIAMETER/2),(GAME_HEIGHT/2)-(BALL_DIAMETER/2),BALL_DIAMETER,BALL_DIAMETER);
+		
 	}
 	public void newpaddle() {
 							//x,y,width,heigt,this id the paddle id
@@ -60,14 +65,91 @@ public class Game_Panel extends JPanel implements Runnable{
 		
 		paddle1.draw(g);
 		paddle2.draw(g);
+		ball.draw(g);
+		score.draw(g);
 		
 	}
 	public void move() {
+		//making the movement of paddle smooth
+		paddle1.move();
+		paddle2.movePaddle2(ball.getY());;
+		ball.move();
 		
 	}
 	public void check_collision() {
 		
+		//bouncing the balls from the walls
+		if(ball.y <= 0) {
+			ball.setYDirection(-ball.Yvelocity);
+		}
+		if(ball.y >= GAME_HEIGHT-BALL_DIAMETER) {
+			ball.setYDirection(-ball.Yvelocity);
+
+		}
+		
+		//bouncing the ball of the paddle
+		if(ball.intersects(paddle1)) {
+			ball.Xvelocity = Math.abs(ball.Xvelocity); 
+			//increasing the ball speed after hitting the paddle
+			ball.Xvelocity++;
+			
+			if(ball.Yvelocity > 0) 
+				//increasing the x velocity of the ball after hitting the paddle
+				ball.Yvelocity ++;
+			
+			else
+				//increasing upwards velocity
+				ball.Yvelocity--;
+			ball.setXDirection(ball.Xvelocity);
+			ball.setYDirection(ball.Yvelocity);
+		}
+		if(ball.intersects(paddle2)) {
+			ball.Xvelocity = Math.abs(ball.Xvelocity); 
+			//increasing the ball speed after hitting the paddle
+			ball.Xvelocity++;
+			
+			if(ball.Yvelocity > 0) 
+				//increasing the x velocity of the ball after hitting the paddle
+				ball.Yvelocity ++;
+			
+			else
+				//increasing upwards velocity
+				ball.Yvelocity--;
+			ball.setXDirection(-ball.Xvelocity);
+			ball.setYDirection(ball.Yvelocity);
+		}
+		
+		if(paddle1.y <= 0) {
+			paddle1.y = 0;
+		}
+		
+		if(paddle1.y >= (GAME_HEIGHT - PADDLE_HEIGHT)) {
+			paddle1.y =  GAME_HEIGHT - PADDLE_HEIGHT;
+		}
+		if(paddle2.y <= 0) {
+			paddle2.y = 0;
+		}
+		
+		if(paddle2.y >= (GAME_HEIGHT - PADDLE_HEIGHT)) {
+			paddle2.y =  GAME_HEIGHT - PADDLE_HEIGHT;
+		}
+	
+
+	
+	//give player 1 point and creates new ball 
+	
+	if(ball.x <= 0) {
+		score.player2++;
+		newpaddle();
+		newball();
 	}
+	if(ball.x >= GAME_WIDTH - BALL_DIAMETER) {
+		score.player1++;
+		newpaddle();
+		newball();
+	}
+}
+	
 	public void run() {
 		
 		//game loop
